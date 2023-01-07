@@ -1,0 +1,36 @@
+.gb-cell {
+    border: solid 1px white;
+    height: 10rem;
+    color: white;
+    font-weight: 900;
+    align-items: center;
+    text-align: center;
+}
+
+.gb-c-header {
+    height: 4rem;
+}
+
+#gbc-datetime {
+    background-color: #df8244;
+}
+
+#gbc-title {
+    background-color: #4cafea;
+}
+
+.gbc-norm {
+    background-color: #4eac5b;
+}
+
+.gbc-danger {
+    background-color: #b02318;
+}
+
+.gbc-value {
+    font-size:xx-large;
+}
+
+.gbc-value-desc {
+    font-size: x-large;
+}

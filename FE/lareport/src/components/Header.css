@@ -1,0 +1,10 @@
+#my-brand-logo {
+    font-family: 'Satisfy', cursive;
+    font-size: 1.5rem;
+    color: #fec516;
+    margin-left: 1rem;
+}
+
+#my-brand-logo > img {
+    max-width: 7rem;
+}
