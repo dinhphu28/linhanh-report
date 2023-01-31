@@ -37,9 +37,9 @@
                 <version>3.0.0</version>
                 <executions>
                   
-                    <execution>
+                    <!-- <execution> -->
                         <!-- <?m2e execute onConfiguration,onIncremental?> -->
-                        <id>npm run build (compile)</id>
+                        <!-- <id>npm run build (compile)</id>
                         <goals>
                             <goal>exec</goal>
                         </goals>
@@ -48,6 +48,21 @@
                             <executable>npm</executable>
                             <arguments>
                                 <argument>run</argument>
+                                <argument>build</argument>
+                            </arguments>
+                        </configuration>
+                    </execution> -->
+
+                    <execution>
+                        <!-- <?m2e execute onConfiguration,onIncremental?> -->
+                        <id>yarn build (compile)</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <executable>yarn</executable>
+                            <arguments>
                                 <argument>build</argument>
                             </arguments>
                         </configuration>

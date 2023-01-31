@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "https://report-linhanh.dxws.io/lareports/static/css/main.8e3df671.css",
-    "main.js": "https://report-linhanh.dxws.io/lareports/static/js/main.77f75b79.js",
+    "main.js": "https://report-linhanh.dxws.io/lareports/static/js/main.b59b8865.js",
     "static/js/787.657f86f3.chunk.js": "https://report-linhanh.dxws.io/lareports/static/js/787.657f86f3.chunk.js",
     "static/media/logotrenbaocao.png": "https://report-linhanh.dxws.io/lareports/static/media/logotrenbaocao.109adb147c26204d6d6f.png",
     "index.html": "https://report-linhanh.dxws.io/lareports/index.html",
     "main.8e3df671.css.map": "https://report-linhanh.dxws.io/lareports/static/css/main.8e3df671.css.map",
-    "main.77f75b79.js.map": "https://report-linhanh.dxws.io/lareports/static/js/main.77f75b79.js.map",
+    "main.b59b8865.js.map": "https://report-linhanh.dxws.io/lareports/static/js/main.b59b8865.js.map",
     "787.657f86f3.chunk.js.map": "https://report-linhanh.dxws.io/lareports/static/js/787.657f86f3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8e3df671.css",
-    "static/js/main.77f75b79.js"
+    "static/js/main.b59b8865.js"
   ]
 }
