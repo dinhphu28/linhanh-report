@@ -104,4 +104,45 @@ public class Group3CXService {
 
         return tmp;
     }
+
+    public Boolean deleteOne(String id) {
+        Boolean isSuccess = false;
+
+        try {
+            repo.deleteById(id);
+
+            isSuccess = true;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        return isSuccess;
+    }
+
+    public Boolean deleteMultiple(List<String> ids) {
+        Boolean isSuccess = false;
+
+        try {
+            repo.deleteAllById(ids);
+
+            isSuccess = false;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        return isSuccess;
+    }
+
+    public List<Group3CX> saveAll(List<Group3CX> group3cxs) {
+
+        List<Group3CX> tmp = new ArrayList<Group3CX>();
+
+        try {
+            tmp = repo.saveAll(group3cxs);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        return tmp;
+    }
 }

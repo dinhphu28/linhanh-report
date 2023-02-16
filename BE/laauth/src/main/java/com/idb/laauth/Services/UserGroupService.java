@@ -90,4 +90,20 @@ public class UserGroupService {
 
         return isSuccess;
     }
+
+    public Boolean deleteAllByGroupId(String groupId) {
+        Boolean isSuccess = false;
+
+        try {
+            Long ii = repo.deleteByGroupId(groupId);
+
+            if(ii > 0) {
+                isSuccess = true;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        return isSuccess;
+    }
 }
