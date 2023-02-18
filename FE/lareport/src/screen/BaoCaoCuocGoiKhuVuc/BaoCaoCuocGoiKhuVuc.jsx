@@ -144,7 +144,7 @@ function BaoCaoCuocGoiKhuVuc(props) {
                             From:
                         </Label>
                         <Input
-                            type="text"
+                            type="date"
                             name="category-name"
                             onChange={e => {changeInputFrom(e)}}
                             defaultValue={dateFrom}
@@ -153,7 +153,7 @@ function BaoCaoCuocGoiKhuVuc(props) {
                             To:
                         </Label>
                         <Input
-                            type="text"
+                            type="date"
                             name="category-name"
                             onChange={e => {changeInputTo(e)}}
                             defaultValue={dateTo}

@@ -169,17 +169,23 @@ function BaoCaoCuocGoi(props) {
                     <Label>
                         From:
                     </Label>
-                    <Input
+                    {/* <Input
                         type="text"
                         name="from"
                         onChange={e => {changeInputFrom(e)}}
                         defaultValue={dateFrom}
+                    /> */}
+                    <Input
+                        type="date"
+                        defaultValue={dateFrom}
+                        name="from"
+                        onChange={e => {changeInputFrom(e)}}
                     />
                     <Label>
                         To:
                     </Label>
                     <Input
-                        type="text"
+                        type="date"
                         name="to"
                         onChange={e => {changeInputTo(e)}}
                         defaultValue={dateTo}
