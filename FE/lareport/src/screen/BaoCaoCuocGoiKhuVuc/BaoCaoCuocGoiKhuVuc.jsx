@@ -123,120 +123,124 @@ function BaoCaoCuocGoiKhuVuc(props) {
 
     return (
         // <div style={{marginTop: "3rem", marginLeft: "0%", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
-        <div style={{marginTop: "3rem", marginLeft: "33vw"}}>
-            <Button
-                outline
-                color='primary'
-                onClick={toggleModal}
-            >
-                Show filter
-            </Button>
-            <Modal
-                isOpen={modalIsOpen}
-                toggle={toggleModal}
-            >
-                <ModalHeader toggle={toggleModal} >Filters</ModalHeader>
-                <ModalBody>
-                    <Label>
-                        From:
-                    </Label>
-                    <Input
-                        type="text"
-                        name="category-name"
-                        onChange={e => {changeInputFrom(e)}}
-                        defaultValue={dateFrom}
-                    />
-                    <Label>
-                        To:
-                    </Label>
-                    <Input
-                        type="text"
-                        name="category-name"
-                        onChange={e => {changeInputTo(e)}}
-                        defaultValue={dateTo}
-                    />
-                    <br />
-                    <Label style={{marginRight: "0.5rem"}}>
-                        Direction:
-                    </Label>
-                    <ButtonGroup>
-                        <Button
-                            color="primary"
-                            outline
-                            onClick={() => setFilteDirection("In")}
-                            active={filterDirection === "In"}
-                        >
-                            Inbound
-                        </Button>
-                        <Button
-                            color="primary"
-                            outline
-                            onClick={() => setFilteDirection("Out")}
-                            active={filterDirection === "Out"}
-                        >
-                            Outbound
-                        </Button>
-                    </ButtonGroup>
-                    <br />
-                    <Label style={{marginRight: "0.5rem"}}>
-                        Group:
-                    </Label>
-                    <br />
-                    {/* <ButtonGroup> */}
-                        {/* <br />
-                        <Button
-                            color="primary"
-                            outline
-                            onClick={() => onGroupCheckboxBtnClick("281")}
-                            active={filterGroup.includes("281")}
-                        >
-                            281
-                        </Button>
-                        <br />
-                        <Button
-                            color="primary"
-                            outline
-                            onClick={() => onGroupCheckboxBtnClick("282")}
-                            active={filterGroup.includes("282")}
-                        >
-                            282
-                        </Button>
-                        <br />
-                        <Button
-                            color="primary"
-                            outline
-                            onClick={() => onGroupCheckboxBtnClick("284")}
-                            active={filterGroup.includes("284")}
-                        >
-                            284
-                        </Button> */}
-                        {listJsxGroupsItems}
-                    {/* </ButtonGroup> */}
-                    <br />
-                </ModalBody>
-                <ModalFooter>
+        <div>
+            <div className='d-flex justify-content-end'>
                 <Button
-                    color="primary"
-                    onClick={() => {
-                        setDateFrom(filterDateFrom);
-                        setDateTo(filterDateTo);
-                        setDirection(filterDirection);
-                        setListGroup(filterGroup);
-
-                        toggleModal();
-                    }}
+                    outline
+                    color='primary'
+                    onClick={toggleModal}
                 >
-                    Submit
-                </Button>{' '}
-                <Button color="secondary" onClick={toggleModal}>
-                    Cancel
+                    Show filter
                 </Button>
-                </ModalFooter>
-            </Modal>
+            </div>
+            <div style={{marginTop: "3rem", marginLeft: "33vw"}}>
+                <Modal
+                    isOpen={modalIsOpen}
+                    toggle={toggleModal}
+                >
+                    <ModalHeader toggle={toggleModal} >Filters</ModalHeader>
+                    <ModalBody>
+                        <Label>
+                            From:
+                        </Label>
+                        <Input
+                            type="text"
+                            name="category-name"
+                            onChange={e => {changeInputFrom(e)}}
+                            defaultValue={dateFrom}
+                        />
+                        <Label>
+                            To:
+                        </Label>
+                        <Input
+                            type="text"
+                            name="category-name"
+                            onChange={e => {changeInputTo(e)}}
+                            defaultValue={dateTo}
+                        />
+                        <br />
+                        <Label style={{marginRight: "0.5rem"}}>
+                            Direction:
+                        </Label>
+                        <ButtonGroup>
+                            <Button
+                                color="primary"
+                                outline
+                                onClick={() => setFilteDirection("In")}
+                                active={filterDirection === "In"}
+                            >
+                                Inbound
+                            </Button>
+                            <Button
+                                color="primary"
+                                outline
+                                onClick={() => setFilteDirection("Out")}
+                                active={filterDirection === "Out"}
+                            >
+                                Outbound
+                            </Button>
+                        </ButtonGroup>
+                        <br />
+                        <Label style={{marginRight: "0.5rem"}}>
+                            Group:
+                        </Label>
+                        <br />
+                        {/* <ButtonGroup> */}
+                            {/* <br />
+                            <Button
+                                color="primary"
+                                outline
+                                onClick={() => onGroupCheckboxBtnClick("281")}
+                                active={filterGroup.includes("281")}
+                            >
+                                281
+                            </Button>
+                            <br />
+                            <Button
+                                color="primary"
+                                outline
+                                onClick={() => onGroupCheckboxBtnClick("282")}
+                                active={filterGroup.includes("282")}
+                            >
+                                282
+                            </Button>
+                            <br />
+                            <Button
+                                color="primary"
+                                outline
+                                onClick={() => onGroupCheckboxBtnClick("284")}
+                                active={filterGroup.includes("284")}
+                            >
+                                284
+                            </Button> */}
+                            {listJsxGroupsItems}
+                        {/* </ButtonGroup> */}
+                        <br />
+                    </ModalBody>
+                    <ModalFooter>
+                    <Button
+                        color="primary"
+                        onClick={() => {
+                            setDateFrom(filterDateFrom);
+                            setDateTo(filterDateTo);
+                            setDirection(filterDirection);
+                            setListGroup(filterGroup);
 
-            <h4>BIỂU ĐỒ TỶ LỆ CUỘC GỌI GIỮA CÁC GROUP</h4>
-            <div style={{ maxWidth: "500px" }}>
-                <Pie data={data} />
+                            toggleModal();
+                        }}
+                    >
+                        Submit
+                    </Button>{' '}
+                    <Button color="secondary" onClick={toggleModal}>
+                        Cancel
+                    </Button>
+                    </ModalFooter>
+                </Modal>
+
+                <h4>BIỂU ĐỒ TỶ LỆ CUỘC GỌI GIỮA CÁC GROUP</h4>
+                <div style={{ maxWidth: "500px" }}>
+                    <Pie data={data} />
+                </div>
             </div>
         </div>
     );

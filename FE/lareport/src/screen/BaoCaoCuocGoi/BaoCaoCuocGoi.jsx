@@ -151,13 +151,15 @@ function BaoCaoCuocGoi(props) {
 
     return (
         <div>
-            <Button
-                outline
-                color='primary'
-                onClick={toggleModal}
-            >
-                Show filter
-            </Button>
+            <div className='d-flex justify-content-end'>
+                <Button
+                    outline
+                    color='primary'
+                    onClick={toggleModal}
+                >
+                    Show filter
+                </Button>
+            </div>
             <Modal
                 isOpen={modalIsOpen}
                 toggle={toggleModal}
