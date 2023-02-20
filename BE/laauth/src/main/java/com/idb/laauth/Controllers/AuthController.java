@@ -2,6 +2,8 @@ package com.idb.laauth.Controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -81,6 +83,13 @@ public class AuthController {
     
                                     groupBaseModels.add(tmpGrpBaseModel);
                                 }
+
+                                Collections.sort(groupBaseModels, new Comparator<GroupBaseModel>() {
+                                    @Override
+                                    public int compare(GroupBaseModel gr1, GroupBaseModel gr2) {
+                                        return gr1.getName().compareTo(gr2.getName());
+                                    }
+                                });
     
                                 CredentialReturn credentialReturn = new CredentialReturn(user.getUsername(), tmpUser.getRole(), token, groupBaseModels);
     
@@ -96,6 +105,13 @@ public class AuthController {
 
                                     groupBaseModels.add(tmpGrpBaseModel);
                                 }
+
+                                Collections.sort(groupBaseModels, new Comparator<GroupBaseModel>() {
+                                    @Override
+                                    public int compare(GroupBaseModel gr1, GroupBaseModel gr2) {
+                                        return gr1.getName().compareTo(gr2.getName());
+                                    }
+                                });
 
                                 CredentialReturn credentialReturn = new CredentialReturn(user.getUsername(), tmpUser.getRole(), token, groupBaseModels);
 
