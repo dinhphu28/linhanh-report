@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.idb.laauth.Entities.Group3CX;
 import com.idb.laauth.Services.Group3CXService;
+import com.idb.laauth.Services.GroupSynchronization.GroupSynchronization;
 
 @RestController
 @CrossOrigin("*")
@@ -20,6 +21,9 @@ import com.idb.laauth.Services.Group3CXService;
 public class Group3CXController {
     @Autowired
     private Group3CXService group3cxService;
+
+    @Autowired
+    private GroupSynchronization groupSynchronization;
 
     @GetMapping(
         produces = MediaType.APPLICATION_JSON_VALUE
@@ -30,6 +34,20 @@ public class Group3CXController {
         List<Group3CX> group3cxs = group3cxService.retrieveAll();
 
         entity = new ResponseEntity<>(group3cxs, HttpStatus.OK);
+
+        return entity;
+    }
+
+    @GetMapping(
+        value = "/sync",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Object> execSync() {
+        ResponseEntity<Object> entity;
+
+        groupSynchronization.sycnGroup();
+
+        entity = new ResponseEntity<>("{ \"Notice\": \"OK\" }", HttpStatus.OK);
 
         return entity;
     }

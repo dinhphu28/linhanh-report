@@ -1,112 +1,118 @@
-package com.idb.laauth.Controllers;
+// package com.idb.laauth.Controllers;
 
-import java.util.ArrayList;
-import java.util.List;
+// import java.util.ArrayList;
+// import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.http.HttpStatus;
+// import org.springframework.http.MediaType;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.web.bind.annotation.CrossOrigin;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RestController;
 
-import com.idb.laauth.Entities.Group3CX;
-import com.idb.laauth.Models.Group.GroupBaseModel;
-import com.idb.laauth.Services.Group3CXService;
-import com.idb.laauth.Services.UserGroupService;
-import com.idb.laauth.Services.WebClient.GroupClientService;
+// import com.idb.laauth.Entities.Group3CX;
+// import com.idb.laauth.Models.Group.GroupBaseModel;
+// import com.idb.laauth.Services.Group3CXService;
+// import com.idb.laauth.Services.UserGroupService;
+// import com.idb.laauth.Services.GroupSynchronization.GroupSynchronization;
+// import com.idb.laauth.Services.WebClient.GroupClientService;
 
-@RestController
-@CrossOrigin("*")
-@RequestMapping("/api/v1/tests")
-public class TestController {
-    @Autowired
-    private GroupClientService groupClientService;
+// @RestController
+// @CrossOrigin("*")
+// @RequestMapping("/api/v1/tests")
+// public class TestController {
+//     @Autowired
+//     private GroupClientService groupClientService;
 
-    @Autowired
-    private Group3CXService group3cxService;
+//     @Autowired
+//     private Group3CXService group3cxService;
 
-    @Autowired
-    private UserGroupService userGroupService;
+//     @Autowired
+//     private UserGroupService userGroupService;
 
-    @GetMapping(
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<Object> retrieveAll() {
-        ResponseEntity<Object> entity;
+//     @Autowired
+//     private GroupSynchronization groupSynchronization;
 
-        List<GroupBaseModel> groupBaseModels = groupClientService.retrieveAll();
+//     @GetMapping(
+//         produces = MediaType.APPLICATION_JSON_VALUE
+//     )
+//     public ResponseEntity<Object> retrieveAll() {
+//         ResponseEntity<Object> entity;
 
-        entity = new ResponseEntity<>(groupBaseModels, HttpStatus.OK);
+//         List<GroupBaseModel> groupBaseModels = groupClientService.retrieveAll();
 
-        return entity;
-    }
+//         groupSynchronization.sycnGroup();
 
-    @GetMapping(
-        value = "/dup-list",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<Object> checkDup() {
-        ResponseEntity<Object> entity;
+//         entity = new ResponseEntity<>(groupBaseModels, HttpStatus.OK);
 
-        List<Group3CX> group3cxs = group3cxService.retrieveAll();
+//         return entity;
+//     }
 
-        List<Group3CX> newGroups = new ArrayList<Group3CX>();
-        List<GroupBaseModel> groupBaseModels = groupClientService.retrieveAll();
-        for (GroupBaseModel groupBaseModel : groupBaseModels) {
-            Group3CX tmp = new Group3CX(groupBaseModel.getId(), groupBaseModel.getName(), 0, null);
+//     @GetMapping(
+//         value = "/dup-list",
+//         produces = MediaType.APPLICATION_JSON_VALUE
+//     )
+//     public ResponseEntity<Object> checkDup() {
+//         ResponseEntity<Object> entity;
 
-            newGroups.add(tmp);
-        }
+//         List<Group3CX> group3cxs = group3cxService.retrieveAll();
 
-        int group3cxsLength = group3cxs.size();
-        int newGroupsLength = newGroups.size();
-        // int group3cxsFirstIndex = 0;
-        // int newGroupsFirstIndex = 0;
+//         List<Group3CX> newGroups = new ArrayList<Group3CX>();
+//         List<GroupBaseModel> groupBaseModels = groupClientService.retrieveAll();
+//         for (GroupBaseModel groupBaseModel : groupBaseModels) {
+//             Group3CX tmp = new Group3CX(groupBaseModel.getId(), groupBaseModel.getName(), 0, null);
 
-        List<Group3CX> existedElements = new ArrayList<Group3CX>();
+//             newGroups.add(tmp);
+//         }
 
-        for(int ii = 0; ii < group3cxsLength; ii++) {
-            for(int jj = 0; jj < newGroupsLength; jj++) {
-                if(group3cxs.get(ii).getId().equals(newGroups.get(jj).getId())) {
-                    existedElements.add(group3cxs.get(ii));
-                }
-            }
-        }
+//         int group3cxsLength = group3cxs.size();
+//         int newGroupsLength = newGroups.size();
+//         // int group3cxsFirstIndex = 0;
+//         // int newGroupsFirstIndex = 0;
 
-        List<Group3CX> willDeletedElements = group3cxs;
+//         List<Group3CX> existedElements = new ArrayList<Group3CX>();
 
-        for (Group3CX existedElement : existedElements) {
-            willDeletedElements.remove(existedElement);
-        }
+//         for(int ii = 0; ii < group3cxsLength; ii++) {
+//             for(int jj = 0; jj < newGroupsLength; jj++) {
+//                 if(group3cxs.get(ii).getId().equals(newGroups.get(jj).getId())) {
+//                     existedElements.add(group3cxs.get(ii));
+//                 }
+//             }
+//         }
 
-        // Delete Groups
-        List<String> willDeletedElementIds = new ArrayList<String>();
+//         List<Group3CX> willDeletedElements = group3cxs;
 
-        int countNoUserGroupsIsDeleted = 0;
-        for (Group3CX group3cx : willDeletedElements) {
-            willDeletedElementIds.add(group3cx.getId());
+//         for (Group3CX existedElement : existedElements) {
+//             willDeletedElements.remove(existedElement);
+//         }
 
-            Boolean userGroupsIsDeleted = userGroupService.deleteAllByGroupId(group3cx.getId());
+//         // Delete Groups
+//         List<String> willDeletedElementIds = new ArrayList<String>();
 
-            if(userGroupsIsDeleted) {
-                countNoUserGroupsIsDeleted++;
-            }
-        }
+//         int countNoUserGroupsIsDeleted = 0;
+//         for (Group3CX group3cx : willDeletedElements) {
+//             willDeletedElementIds.add(group3cx.getId());
 
-        Boolean group3cxIsDeleted = false;
+//             Boolean userGroupsIsDeleted = userGroupService.deleteAllByGroupId(group3cx.getId());
 
-        if(countNoUserGroupsIsDeleted == willDeletedElements.size()) {
-            group3cxIsDeleted = group3cxService.deleteMultiple(willDeletedElementIds);
-        }
+//             if(userGroupsIsDeleted) {
+//                 countNoUserGroupsIsDeleted++;
+//             }
+//         }
 
-        // Save Groups
-        List<Group3CX> group3cxSaved = group3cxService.saveAll(newGroups);
+//         Boolean group3cxIsDeleted = false;
 
-        entity = new ResponseEntity<>(group3cxSaved, HttpStatus.OK);
+//         if(countNoUserGroupsIsDeleted == willDeletedElements.size()) {
+//             group3cxIsDeleted = group3cxService.deleteMultiple(willDeletedElementIds);
+//         }
 
-        return entity;
-    }
-}
+//         // Save Groups
+//         List<Group3CX> group3cxSaved = group3cxService.saveAll(newGroups);
+
+//         entity = new ResponseEntity<>(group3cxSaved, HttpStatus.OK);
+
+//         return entity;
+//     }
+// }

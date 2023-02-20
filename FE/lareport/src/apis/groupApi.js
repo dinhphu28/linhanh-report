@@ -5,6 +5,12 @@ const groupApi = {
         const url = "/groups";
 
         return axiosClientAuth.get(url);
+    },
+
+    sync: () => {
+        const url = "/groups/sync";
+
+        return axiosClientAuth.get(url);
     }
 };
 

@@ -128,6 +128,16 @@ function ScreenUserList(props) {
         }
     }
 
+    const fetchDeleteUser = async (username) => {
+        try {
+            const response = await userApi.delete(username);
+
+            console.log("Delete user successfully: ", response);
+        } catch (error) {
+            console.log("Failed to delete user: ", error);
+        }
+    }
+
     const listJsxUserItems = listUsers.map(item =>
         <tr key={item.username}>
             <th scope="row">
@@ -156,6 +166,19 @@ function ScreenUserList(props) {
                     }}
                 >
                     Assign group
+                </Button>
+            </td>
+            <td>
+                <Button
+                    color='link'
+                    className='link-danger'
+                    onClick={() => {
+                        fetchDeleteUser(item.username);
+
+                        setListUsers(listUsers.filter(usr => usr.username !== item.username));
+                    }}
+                >
+                    Delete
                 </Button>
             </td>
         </tr>
@@ -233,6 +256,16 @@ function ScreenUserList(props) {
         }
     }
 
+    const fetchSyncGroupWith3CX = async () => {
+        try {
+            const response = await groupApi.sync();
+
+            console.log("Sync group 3CX successfully");
+        } catch (error) {
+            console.log("Failed to sync group 3CX: ", error);
+        }
+    }
+
     // const fetchListGroupsOfUser = async (username) => {
     //     try {
     //         const response = await userGroupApi.getByUsername(username);
@@ -260,6 +293,17 @@ function ScreenUserList(props) {
             >
                 Add
             </Button>
+            <Button
+                style={{marginRight: "1rem", marginBottom: "0.5rem"}}
+                type='button'
+                color='primary'
+                outline
+                onClick={() => {
+                    fetchSyncGroupWith3CX();
+                }}
+            >
+                Sync group now
+            </Button>
 
             {showAlertSuccess ?
                 <Alert>
@@ -285,6 +329,9 @@ function ScreenUserList(props) {
                         </th>
                         <th>
 
+                        </th>
+                        <th>
+                            
                         </th>
                     </tr>
                 </thead>
