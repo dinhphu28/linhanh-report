@@ -130,7 +130,7 @@ function BaoCaoTop10AgentsMaxTimeCall(props) {
         labels,
         datasets: [
             {
-                label: 'Agent - Thời gian gọi',
+                label: 'Agent - Thời gian gọi (giây)',
                 data: listDataNoCalls,
                 borderColor: 'rgb(24, 200, 18)',
                 backgroundColor: 'rgba(24, 200, 18, 0.9)',

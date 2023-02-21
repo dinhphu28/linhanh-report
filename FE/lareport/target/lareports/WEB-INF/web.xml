@@ -4,7 +4,7 @@
 	      http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	      version="2.4">
 
-  <display-name>ReactServlet-SuVuCalendar</display-name>
+  <display-name>ReactServlet-Reports</display-name>
 
   <error-page>
     <error-code>404</error-code>

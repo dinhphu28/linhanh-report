@@ -99,7 +99,7 @@ function BaoCaoCuocGoiKhuVuc(props) {
         labels: listLabel,
         datasets: [
             {
-                label: '# of Votes',
+                label: 'Tỷ lệ %',
                 data: listPercentValues,
                 backgroundColor: listColor
             },

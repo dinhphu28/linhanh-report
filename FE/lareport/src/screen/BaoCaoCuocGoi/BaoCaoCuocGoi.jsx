@@ -149,6 +149,18 @@ function BaoCaoCuocGoi(props) {
         </>
     );
 
+    const formatDate = (dateStr) => {
+        const objDate = new Date(dateStr);
+
+        const dayVal = objDate.getDate();
+        const monthVal = objDate.getMonth() + 1;
+        const yearVal = objDate.getFullYear();
+
+        const res = `${dayVal}/${monthVal}/${yearVal}`;
+
+        return res;
+    }
+
     return (
         <div>
             <div className='d-flex justify-content-end'>
@@ -313,8 +325,10 @@ function BaoCaoCuocGoi(props) {
                         className="bg-warning border"
                         xs="2"
                     >
-                        <div>From: {dateFrom}</div>
-                        <div>To: {dateTo}</div>
+                        {/* <div>From: {dateFrom}</div> */}
+                        <div>From: {formatDate(dateFrom)}</div>
+                        {/* <div>To: {dateTo}</div> */}
+                        <div>To: {formatDate(dateTo)}</div>
                     </Col>
                     <Col
                         className="bg-light"
