@@ -248,15 +248,15 @@ function BaoCaoCuocGoi(props) {
                         {listJsxGroupsItems}
                     {/* </ButtonGroup> */}
                     <br />
-                    {/* <Label>
-                        Agent:
+                    <Label>
+                        Agent: (delimiter by character space ' ')
                     </Label>
                     <Input
                         type="text"
                         name="agent"
                         onChange={e => {changeInputAgent(e)}}
                         defaultValue={agent}
-                    /> */}
+                    />
                     <Label>
                         Source:
                     </Label>

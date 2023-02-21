@@ -1,3 +1,30 @@
+# Deployment
+
+Edit file .env as below
+
+```properties
+REACT_APP_BE_API_V1_URL=https://report-linhanh.dxws.io/reportapi/api/v1
+# REACT_APP_BE_API_V1_URL=http://103.146.21.217:8080/reportapi/api/v1
+REACT_APP_BE_AUTH_API_V1_URL=https://report-linhanh.dxws.io/laauthapi/api/v1
+# REACT_APP_BE_AUTH_API_V1_URL=http://103.146.21.217:8080/laauthapi/api/v1
+REACT_APP_FE_ROOT_PATH_OF_TOMCAT=/lareports
+# REACT_APP_FE_ROOT_PATH_OF_TOMCAT=
+```
+
+### Requirements
+
+- [x] Node.JS (v16)
+- [x] yarn
+- [x] mvn
+
+Run below command to package (war file) and deploy to Tomcat Server
+
+```sh
+mvn clean install
+```
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
