@@ -17,6 +17,12 @@ const userApi = {
         const url = `/users/${username}`;
 
         return axiosClientAuth.delete(url);
+    },
+
+    getSecKey: (username) => {
+        const url = `/users/sec-keys/${username}`;
+
+        return axiosClientAuth.get(url);
     }
 };
 

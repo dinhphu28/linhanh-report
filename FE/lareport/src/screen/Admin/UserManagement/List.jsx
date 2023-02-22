@@ -5,6 +5,7 @@ import userApi from '../../../apis/userApi';
 import authApi from '../../../apis/authApi';
 import groupApi from '../../../apis/groupApi';
 import userGroupApi from '../../../apis/userGroupApi';
+import QRCode from 'react-qr-code';
 
 // ScreenUserList.propTypes = {
 
@@ -21,6 +22,7 @@ function ScreenUserList(props) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalChangePasswordIsOpen, setModalChangePasswordIsOpen] = useState(false);
     const [modalAssignGroupIsOpen, setModalAssignGroupIsOpen] = useState(false);
+    const [modalTotpIsOpen, setModalTotpIsOpen] = useState(false);
 
     const [newPassword, setNewPassword] = useState("");
     const [selectedUser, setSelectedUser] = useState(null);
@@ -30,6 +32,8 @@ function ScreenUserList(props) {
 
     const [filterGroup, setFilterGroup] = useState([]);
     const [listGroupsOfUserSelected, setListGroupsOfUserSelected] = useState([]);
+
+    const [selectedTotp, setSelectedTotp] = useState({code: null, decriptions: null});
 
     useEffect(() => {
         const fetchListUser = async () => {
@@ -85,6 +89,14 @@ function ScreenUserList(props) {
         }
 
         setModalAssignGroupIsOpen(!modalAssignGroupIsOpen);
+    }
+
+    const toggleTotpModal = () => {
+        if(modalTotpIsOpen) {
+            setSelectedTotp({code: null, decriptions: null});
+        }
+
+        setModalTotpIsOpen(!modalTotpIsOpen);
     }
 
     const onGroupCheckboxBtnClick = (selected) => {
@@ -166,6 +178,20 @@ function ScreenUserList(props) {
                     }}
                 >
                     Assign group
+                </Button>
+            </td>
+            <td>
+                <Button
+                    color='link'
+                    onClick={() => {
+                        setSelectedUser(item.username);
+
+                        fetchTotpOfUser(item.username);
+
+                        toggleTotpModal();
+                    }}
+                >
+                    Show TOTP
                 </Button>
             </td>
             <td>
@@ -266,6 +292,17 @@ function ScreenUserList(props) {
         }
     }
 
+    const fetchTotpOfUser = async (username) => {
+        try {
+            const response = await userApi.getSecKey(username);
+
+            setSelectedTotp(response);
+            console.log("Fetch TOTP of user successfully: ", response);
+        } catch (error) {
+            console.log("Fail to fetch TOTP of user: ", error);
+        }
+    }
+
     // const fetchListGroupsOfUser = async (username) => {
     //     try {
     //         const response = await userGroupApi.getByUsername(username);
@@ -332,6 +369,9 @@ function ScreenUserList(props) {
                         </th>
                         <th>
                             
+                        </th>
+                        <th>
+
                         </th>
                     </tr>
                 </thead>
@@ -446,6 +486,42 @@ function ScreenUserList(props) {
                         Submit
                     </Button>{' '}
                     <Button color="secondary" onClick={toggleAssignGroupModal}>
+                        Cancel
+                    </Button>
+                </ModalFooter>
+            </Modal>
+
+            <Modal
+                isOpen={modalTotpIsOpen}
+                toggle={toggleTotpModal}
+            >
+                <ModalHeader toggle={toggleTotpModal}>TOTP: {selectedUser}</ModalHeader>
+                <ModalBody>
+                    <Label>
+                        Scan QR Code:
+                    </Label>
+                    {selectedTotp.decriptions ?
+                        <QRCode
+                        size={256}
+                        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                        value={selectedTotp.decriptions}
+                        viewBox={`0 0 256 256`}
+                    /> : ""}
+                    <hr/>
+                    <Label>
+                        Or enter code manually: {selectedTotp.code}
+                    </Label>
+                </ModalBody>
+                <ModalFooter>
+                    <Button
+                        color="primary"
+                        onClick={() => {
+                            toggleTotpModal();
+                        }}
+                    >
+                        Submit
+                    </Button>{' '}
+                    <Button color="secondary" onClick={toggleTotpModal}>
                         Cancel
                     </Button>
                 </ModalFooter>

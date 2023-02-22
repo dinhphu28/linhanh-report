@@ -14,6 +14,7 @@ function LoginPage(props) {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [totp, setTotp] = useState("");
 
     let navigate = useNavigate();
 
@@ -22,6 +23,9 @@ function LoginPage(props) {
     }
     const changePasswordInputValue = (e) => {
         setPassword(e.target.value);
+    }
+    const changeTotpInputValue = (e) => {
+        setTotp(e.target.value);
     }
 
     // Validation Form
@@ -57,7 +61,8 @@ function LoginPage(props) {
         try{
             const signInData = {
                 username: username,
-                password: password
+                password: password,
+                totp: totp
             };
 
             const response = await authApi.put(signInData);
@@ -90,13 +95,13 @@ function LoginPage(props) {
         if(validation.error) {
             alert(validation.msg);
         } else {
-            alert("Submit form sign in success");
+            // alert("Submit form sign in success");
             fetchSignIn();
         }
     }
 
     return (
-        <div  className="d-flex align-items-center justify-content-center">
+        <div className="d-flex align-items-center justify-content-center">
             <Form className='login-form'
                 onSubmit={e => {
                     submitForm(e);
@@ -124,6 +129,18 @@ function LoginPage(props) {
                         placeholder='Type your password'
                         type='password'
                         onChange={e => changePasswordInputValue(e)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for='totp'>
+                        OTP:
+                    </Label>
+                    <Input
+                        id='totp'
+                        name='totp'
+                        placeholder='OTP'
+                        type="text"
+                        onChange={e => changeTotpInputValue(e)}
                     />
                 </FormGroup>
                 <Button

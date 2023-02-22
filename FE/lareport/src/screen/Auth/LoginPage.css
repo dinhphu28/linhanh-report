@@ -34,3 +34,9 @@
 .gbc-value-desc {
     font-size: x-large;
 }
+
+.login-form {
+    border: 1px solid blue;
+    border-radius: 15px;
+    padding: 25px 25px 25px 25px
+}

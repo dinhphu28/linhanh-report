@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.idb.laauth.Entities.User;
+import com.idb.laauth.Entities.UserSecKey;
+import com.idb.laauth.Models.ReturnModel;
 import com.idb.laauth.Models.User.UserChangePasswordModel;
 import com.idb.laauth.Services.UserGroupService;
+import com.idb.laauth.Services.UserSecKeyService;
 import com.idb.laauth.Services.UserService;
 import com.idb.laauth.Utils.Auth.PasswordAuthUtil;
+import com.idb.laauth.Utils.TOTP.TOTPUtils;
 
 @RestController
 @CrossOrigin("*")
@@ -31,6 +35,12 @@ public class UserController {
     @Autowired
     private UserGroupService userGroupService;
 
+    @Autowired
+    private UserSecKeyService userSecKeyService;
+
+    @Autowired
+    private TOTPUtils totpUtils;
+
     @GetMapping(
         produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -40,6 +50,25 @@ public class UserController {
         List<User> users = userService.retrieveByRole("manager");
 
         entity = new ResponseEntity<>(users, HttpStatus.OK);
+
+        return entity;
+    }
+
+    @GetMapping(
+        value = "/sec-keys/{username}",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Object> retrieveSeckeyByUserId(@PathVariable("username") String username) {
+        ResponseEntity<Object> entity;
+
+        UserSecKey userSecKey = userSecKeyService.retrieveByUserId(username);
+        if(userSecKey != null) {
+            String secKey = userSecKey.getSecKey();
+
+            entity = new ResponseEntity<>(new ReturnModel(secKey, "otpauth://totp/Linh Anh 3CX Reports: " + username + "?secret=" + secKey + "&issuer=3cx"), HttpStatus.OK);
+        } else {
+            entity = new ResponseEntity<>(new ReturnModel("Not found", "Not found TOTP"), HttpStatus.NOT_FOUND);
+        }
 
         return entity;
     }
@@ -76,7 +105,7 @@ public class UserController {
     }
 
     @DeleteMapping(
-        value = "{username}",
+        value = "/{username}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {
@@ -88,6 +117,8 @@ public class UserController {
             entity = new ResponseEntity<>("{ \"Notice\": \"Invalid username\" }", HttpStatus.BAD_REQUEST);  // invalid username
         } else {
             Boolean isUserGroupDeleted = userGroupService.deleteAllByUserId(tmpUser.getId());
+
+            Boolean isUserSecKeyDeleted = userSecKeyService.deleteByUserId(username);
 
             Boolean isUserDeleted = userService.deleteOne(username);
 

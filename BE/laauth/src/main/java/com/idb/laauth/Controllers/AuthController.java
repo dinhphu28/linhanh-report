@@ -20,15 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idb.laauth.Entities.Group3CX;
 import com.idb.laauth.Entities.User;
 import com.idb.laauth.Entities.UserGroup;
+import com.idb.laauth.Entities.UserSecKey;
 import com.idb.laauth.Models.Auth.CredentialReturn;
 import com.idb.laauth.Models.Auth.UserModel;
+import com.idb.laauth.Models.Auth.UserTotpModel;
 import com.idb.laauth.Models.Group.GroupBaseModel;
 import com.idb.laauth.Services.Group3CXService;
 import com.idb.laauth.Services.UserGroupService;
+import com.idb.laauth.Services.UserSecKeyService;
 import com.idb.laauth.Services.UserService;
 import com.idb.laauth.Utils.Auth.PasswordAuthUtil;
 import com.idb.laauth.Utils.Auth.JWT.jwtSecurity;
 import com.idb.laauth.Utils.Auth.JWT.myJWT;
+import com.idb.laauth.Utils.TOTP.TOTPUtils;
 
 @RestController
 @CrossOrigin("*")
@@ -43,12 +47,18 @@ public class AuthController {
     @Autowired
     private Group3CXService group3cxService;
 
+    @Autowired
+    private TOTPUtils totpUtils;
+
+    @Autowired
+    private UserSecKeyService userSecKeyService;
+
     // Login
     @PutMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> login(@RequestBody UserModel user) {
+    public ResponseEntity<Object> login(@RequestBody UserTotpModel user) {
         ResponseEntity<Object> entity;
 
         if(user.getUsername() == null || user.getPassword() == null) {
@@ -59,7 +69,19 @@ public class AuthController {
             if(tmpUser == null) {
                 entity = new ResponseEntity<>("{ \"Notice\": \"Invalid username or password\" }", HttpStatus.BAD_REQUEST);  // invalid username
             } else {
-                if(tmpUser.getActive() == 1) {
+                UserSecKey userSecKey = userSecKeyService.retrieveByUserId(user.getUsername());
+
+                Boolean isTotpVerified = false;
+
+                if(userSecKey != null) {
+                    try {
+                        isTotpVerified = totpUtils.verifyOnlyOneCodeRequired(userSecKey.getSecKey(), user.getTotp());
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+                }
+
+                if(tmpUser.getActive() == 1 && isTotpVerified) {
                     PasswordAuthUtil passwordAuthUtil = new PasswordAuthUtil();
 
                     if(passwordAuthUtil.verifyPassword(user.getPassword(), tmpUser.getPassword())) {
@@ -122,7 +144,7 @@ public class AuthController {
                         entity = new ResponseEntity<>("{ \"Notice\": \"Invalid username or password\" }", HttpStatus.BAD_REQUEST);  // invalid password
                     }
                 } else {
-                    entity = new ResponseEntity<>("{ \"Notice\": \"User was blocked\" }", HttpStatus.LOCKED);
+                    entity = new ResponseEntity<>("{ \"Notice\": \"User was blocked or Unauthorized\" }", HttpStatus.LOCKED);
                 }
             }
         }
@@ -161,6 +183,11 @@ public class AuthController {
                 if(tmpSaved == null) {
                     entity = new ResponseEntity<>("{ \"Notice\": \"Username is existed\" }", HttpStatus.BAD_REQUEST);
                 } else {
+                    String secKey = totpUtils.generateSecretKey();
+
+                    UserSecKey userSecKey = new UserSecKey(user.getUsername(), secKey);
+                    UserSecKey userSecKeySaved = userSecKeyService.saveOne(userSecKey);
+
                     entity = new ResponseEntity<>("{ \"username\": \"" + user.getUsername() + "\", \"password\": \"" + user.getPassword() + "\" }", HttpStatus.OK);
                 }
             }
